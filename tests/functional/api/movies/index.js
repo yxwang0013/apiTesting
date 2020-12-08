@@ -107,4 +107,29 @@ describe("Movies endpoint", () => {
           });
       });
     });
+    describe("PUT /movies ", () => {
+      it("should return a copy of the updated movie", () => {
+        return request(api)
+          .put(`/api/movies/${movieId}`)
+          .send(movie)
+          .expect(200)
+          .then((res) => {
+            expect(res.body.title).equals(movie.title);
+            movieId = res.body.id;
+          });
+      });
+      it("should return the message:'Unable to find Movie'", () => {
+        return request(api)
+          .put("/api/movies/:id")
+          .send(movie)
+          .expect(404)
+          .then((res) => {
+            expect({
+              message:'Unable to find Movie.',
+            });
+              
+            movieId = res.body.id;
+          });
+      });
+    });
 });
