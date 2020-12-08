@@ -61,4 +61,30 @@ describe("Movies endpoint", () => {
           });
       });
     });
+    describe("GET /movies/:id", () => {
+      describe("when the id is valid", () => {
+        it("should return the matching movie", () => {
+          return request(api)
+            .get(`/api/movies/${currentMovieId}`)
+            .set("Accept", "application/json")
+            .expect("Content-Type", /json/)
+            .expect(200)
+            .then((res) => {
+              expect(res.body).to.have.property("title", currentMovieTitle);
+            });
+        });
+      });
+      describe("when the id is invalid", () => {
+        it("should return the NOT found message", () => {
+          return request(api)
+            .get("/api/movies/9999")
+            .set("Accept", "application/json")
+            .expect("Content-Type", /json/)
+            .expect({
+              message: "Unable to find movie with id: 9999.",
+              status: 404,
+            });
+        });
+      });
+    });
 });
