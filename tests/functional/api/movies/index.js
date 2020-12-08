@@ -41,6 +41,24 @@ const movie = {
   vote_count: 9692
 };
 
-describe('Movies endpoint',  () => {
-    // TODO
+describe("Movies endpoint", () => {
+    describe("GET /movies ", () => {
+      it("should return the 2 movies and a status 200", (done) => {
+        request(api)
+          .get("/api/movies")
+          .set("Accept", "application/json")
+          .expect("Content-Type", /json/)
+          .expect(200)
+          .end((err, res) => {
+            expect(res.body.movies).to.be.a("array");
+            expect(res.body.movies.length).to.equal(2);
+            const result = res.body.movies.map((movie) => movie.title);
+            expect(result).to.have.members([
+              "The Avengers",
+              "Avengers: Age of Ultron",
+            ]);
+            done();
+          });
+      });
+    });
 });
