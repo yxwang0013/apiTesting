@@ -207,7 +207,17 @@ describe("Movies endpoint", () => {
         });
       });
       describe("when the id is invalid", () => {
-        // TODO
+        it("should return a 404 status and Unable to find movie", () => {
+          return request(api)
+            .delete(`/api/movies/9999`)
+            .set("Accept", "application/json")
+            .expect("Content-Type", /json/)
+            .expect(404)
+            .expect({
+              message: "Unable to find movie with id: 9999.",
+              status: 404,
+            });
+        });
       });
     });
 });
