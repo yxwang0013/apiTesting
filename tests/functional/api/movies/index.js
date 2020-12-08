@@ -1,6 +1,6 @@
 import chai from "chai";
 import request from "supertest";
-import api from "../../../../index";  // Express API application 
+let api ;
 
 const expect = chai.expect;
 
@@ -42,6 +42,13 @@ const movie = {
 };
 
 describe("Movies endpoint", () => {
+  beforeEach(() => {
+    api = require("../../../../index");
+  });
+  afterEach((done) => {
+    delete require.cache[require.resolve("../../../../index")];
+    done();
+  });
     describe("GET /movies ", () => {
       it("should return the 2 movies and a status 200", (done) => {
         request(api)
