@@ -19,3 +19,4 @@ app.use('/api/movies', moviesRouter);
 app.listen(port, () => {
   console.log(`Server running at ${port}`);
 });
+export default app;
